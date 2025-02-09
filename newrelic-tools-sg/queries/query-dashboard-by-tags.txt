@@ -1,0 +1,17 @@
+query Get($tags: [EntitySearchQueryBuilderTag!]) {
+  actor {
+    entitySearch(queryBuilder: {tags: $tags, type: DASHBOARD}) {
+      types {
+        type
+        entityType
+      }
+      results {
+        entities {
+          guid
+          name
+        }
+      }
+      count
+    }
+  }
+}

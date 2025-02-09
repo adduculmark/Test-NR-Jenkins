@@ -1,0 +1,23 @@
+{
+    "name": "{{countryCode}} Alert Condition - {{appName}} - Application - Non Web - Abnormal Response times",
+    "enabled": true,
+    "nrql": {
+        "query": "SELECT percentile(duration, 95) AS '95th Percentile Response Time' FROM Transaction WHERE clusterName = cluster_name AND namespaceName IN (namespace_names) AND appName IN (appNames) AND name LIKE 'OtherTransaction/Custom%' FACET name"
+    },
+    "signal": {
+        "aggregationDelay": 120,
+        "aggregationMethod": "EVENT_FLOW",
+        "aggregationWindow": 1800
+    },
+    "terms": [
+        {
+            "operator": "ABOVE",
+            "priority": "WARNING",
+            "threshold": 20.0,
+            "thresholdDuration": 3600,
+            "thresholdOccurrences": "ALL"
+        }
+    ],
+    "valueFunction": "SINGLE_VALUE",
+    "violationTimeLimitSeconds": 259200
+}

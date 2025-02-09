@@ -1,0 +1,24 @@
+{
+    "name": "{{countryCode}} Alert Condition - {{appName}} - Backing Services - Azure Redis - Storage Usage Percentage",
+    "enabled": true,
+    "nrql": {
+        "query": "FROM Metric SELECT average(numeric(getField(azure.cache.redis.usedmemorypercentage, max))) AS 'Redis Storage Usage (%)'  where azure.resourceName in (azureRedisCacheNames) facet azure.resourceName"
+    },
+    "signal": {
+        "aggregationDelay": 120,
+        "aggregationMethod": "EVENT_FLOW",
+        "aggregationTimer": null,
+        "aggregationWindow": 900
+    },
+    "terms": [
+        {
+            "operator": "ABOVE_OR_EQUALS",
+            "priority": "CRITICAL",
+            "threshold": 90.0,
+            "thresholdDuration": 900,
+            "thresholdOccurrences": "AT_LEAST_ONCE"
+        }
+    ],
+    "valueFunction": "SINGLE_VALUE",
+    "violationTimeLimitSeconds": 259200
+}

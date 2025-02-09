@@ -1,0 +1,24 @@
+{  
+  "env": "UAT",
+  "appName": "ADP",
+  "countryCode": "VN",
+  "patterns": [
+    {"match": "AvailabilitySynthetics", "replacedBy": "''"},
+    {"match": "namespace_names", "replacedBy": "'ns-vnm-adp-system'"},
+    {"match": "cluster_name", "replacedBy": "'aks-jpe-emm-uat'"},
+    {"match": "appNames", "replacedBy": "'rsf-cfgserver-starter-vnm-adp-jpe-emm-uat'"},
+    {"match": "azureDBNames", "replacedBy": "''"},
+    {"match": "azureBlobNames", "replacedBy": "''"},
+    {"match": "azureServiceBusNames", "replacedBy": "''"},
+    {"match": "azureServiceBusTopicNames", "replacedBy": "''"},
+    {"match": "confluentKafkaTopicNames", "replacedBy": "''"},
+    {"match": "confluentKafkaNames", "replacedBy": "''"},
+    {"match": "eventHubNames", "replacedBy": "''"},
+    {"match": "eventHubTopicNames", "replacedBy": "''"},
+    {"match": "azureRedisCacheNames", "replacedBy": "''"},
+    {"match": "BrowserGuids", "replacedBy": "''"},
+    {"match": "MobileAndroidGuid", "replacedBy": "''"},
+    {"match": "MobileIOSGuid", "replacedBy": "''"}
+  ],
+  "account_id": 1737703  
+}

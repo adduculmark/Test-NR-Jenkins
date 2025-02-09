@@ -1,0 +1,45 @@
+query Get($accountId: Int!, $policyId: ID!) {
+  actor {
+    account(id: $accountId) {
+      alerts {
+        nrqlConditionsSearch(searchCriteria: {policyId: $policyId}) {
+          nrqlConditions {
+            ... on AlertsNrqlStaticCondition {
+              id
+              name
+              nrql {
+                query
+              }
+              description
+              enabled
+              expiration {
+                closeViolationsOnExpiration
+                expirationDuration
+                openViolationOnExpiration
+              }
+              policyId
+              runbookUrl
+              signal {
+                aggregationWindow
+                evaluationOffset
+                fillOption
+                fillValue
+              }
+              terms {
+                operator
+                priority
+                threshold
+                thresholdDuration
+                thresholdOccurrences
+              }
+              type
+              valueFunction
+              violationTimeLimitSeconds
+            }
+          }
+        }
+      }
+    }
+  }
+}
+

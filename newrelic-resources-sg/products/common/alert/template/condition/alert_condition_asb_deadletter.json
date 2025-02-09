@@ -1,0 +1,30 @@
+{
+    "name": "{{countryCode}} Alert Condition - {{appName}} - Backing Services - Azure Service Bus - Dead Lettered Messages",
+    "enabled": true,
+    "nrql": {
+        "query": "SELECT latest(deadletteredMessages.Average) AS 'DEAD LETTER MESSAGES BY TOPIC' FROM AzureServiceBusTopicSample WHERE namespace IN (azureServiceBusNames) AND name IN (azureServiceBusTopicNames) AND deadletteredMessages.Average > 0 FACET name"
+    },
+    "signal": {
+        "aggregationDelay": 120,
+        "aggregationMethod": "EVENT_FLOW",
+        "aggregationWindow": 900
+    },
+    "terms": [
+        {
+            "operator": "ABOVE_OR_EQUALS",
+            "priority": "CRITICAL",
+            "threshold": 30.0,
+            "thresholdDuration": 900,
+            "thresholdOccurrences": "ALL"
+        },
+        {
+            "operator": "ABOVE_OR_EQUALS",
+            "priority": "WARNING",
+            "threshold": 15.0,
+            "thresholdDuration": 600,
+            "thresholdOccurrences": "ALL"
+        }
+    ],
+    "valueFunction": "SINGLE_VALUE",
+    "violationTimeLimitSeconds": 259200
+}

@@ -1,0 +1,31 @@
+{
+    "name": "{{countryCode}} Alert Condition - {{appName}} - Infrastructure - Kubernetes - Pods Down",
+    "enabled": true,
+    "nrql": {
+        "query": "select uniqueCount(deploymentName) as 'Services DOWN'  from K8sDeploymentSample where clusterName = cluster_name and namespaceName in (namespace_names) and displayName not like '%rsf-cfgserver%' and  (concat(capture(deploymentName, r'dep-(?P<name>[A-Za-z-]*)-.*'),'-sea-emm-prod') in (appNames) or concat(capture(deploymentName, r'dep-(?P<name>[A-Za-z-]*)-.*'),'-sea-emm-prd') in (appNames)) and podsAvailable <= 0 facet deploymentName"
+    },
+    "signal": {
+        "aggregationDelay": 120,
+        "aggregationMethod": "EVENT_FLOW",
+        "aggregationTimer": null,
+        "aggregationWindow": 60
+    },
+    "terms": [
+        {
+            "operator": "ABOVE",
+            "priority": "CRITICAL",
+            "threshold": 0.0,
+            "thresholdDuration": 600,
+            "thresholdOccurrences": "ALL"
+        },
+        {
+            "operator": "ABOVE",
+            "priority": "WARNING",
+            "threshold": 0.0,
+            "thresholdDuration": 300,
+            "thresholdOccurrences": "ALL"
+        }
+    ],
+    "valueFunction": "SINGLE_VALUE",
+    "violationTimeLimitSeconds": 259200
+}

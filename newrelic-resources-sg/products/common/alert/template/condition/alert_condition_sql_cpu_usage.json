@@ -1,0 +1,24 @@
+{
+    "name": "{{countryCode}} Alert Condition - {{appName}} - Backing Services - Azure SQL - CPU Usage Percentage",
+    "enabled": true,
+    "nrql": {
+        "query": "SELECT average(cpuPercent.Total) AS 'CPU %' FROM AzureSqlDatabaseSample WHERE name IN (azureDBNames) FACET name"
+    },
+    "signal": {
+        "aggregationDelay": 120,
+        "aggregationMethod": "EVENT_FLOW",
+        "aggregationTimer": null,
+        "aggregationWindow": 900
+    },
+    "terms": [
+        {
+            "operator": "ABOVE_OR_EQUALS",
+            "priority": "WARNING",
+            "threshold": 90.0,
+            "thresholdDuration": 1800,
+            "thresholdOccurrences": "ALL"
+        }
+    ],
+    "valueFunction": "SINGLE_VALUE",
+    "violationTimeLimitSeconds": 259200
+}

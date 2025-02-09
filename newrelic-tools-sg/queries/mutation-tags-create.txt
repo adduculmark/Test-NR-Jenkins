@@ -1,0 +1,8 @@
+mutation Create($guid: EntityGuid!, $tags: [TaggingTagInput!]!) {
+  taggingReplaceTagsOnEntity(guid: $guid, tags: $tags) {
+    errors {
+      message
+      type
+    }
+  }
+}

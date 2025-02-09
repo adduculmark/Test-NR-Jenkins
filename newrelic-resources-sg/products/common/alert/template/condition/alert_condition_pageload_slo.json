@@ -1,0 +1,24 @@
+{
+    "name": "{{countryCode}} Alert Condition - {{appName}} - User Experience - Browser - Page Load Time SLO",
+    "enabled": true,
+    "nrql": {
+        "query": "SELECT clamp_max(percentage(count(*), WHERE duration < 3 AND pageUrl NOT LIKE '%error%') / 95 * 100, 100) FROM PageView WHERE entityGuid in (BrowserGuids) AND pageUrl NOT LIKE '%error%' FACET pageUrl, entityGuid"
+    },
+    "signal": {
+        "aggregationDelay": 120,
+        "aggregationMethod": "EVENT_FLOW",
+        "aggregationTimer": null,
+        "aggregationWindow": 900
+    },
+    "terms": [
+        {
+            "operator": "BELOW",
+            "priority": "WARNING",
+            "threshold": 95.0,
+            "thresholdDuration": 900,
+            "thresholdOccurrences": "ALL"
+        }
+    ],
+    "valueFunction": "SINGLE_VALUE",
+    "violationTimeLimitSeconds": 259200
+}
