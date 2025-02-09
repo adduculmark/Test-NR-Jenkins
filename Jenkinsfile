@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'macOSX' }
+    agent any
     options { disableConcurrentBuilds() }
     environment {
         SHARED_LIB = "$WORKSPACE/OAR-scripts"
@@ -30,8 +30,8 @@ pipeline {
                     doGenerateSubmoduleConfigurations: false, 
                     extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'newrelic-tools-sg']],
                     userRemoteConfigs: [[
-                        url: 'https://github.com/adduculmark/esm-re-nr-jenkins-automated-condition-dashboard.git', 
-                        credentialsId: 'ETS_OAR_TEST_CRED' // Updated to use the new credentials
+                        url: 'https://github.com/adduculmark/Test-NR-Jenkins.git', 
+                        //credentialsId: 'ETS_OAR_TEST_CRED' // Updated to use the new credentials
                     ]]
                 ])
             }
@@ -46,7 +46,7 @@ pipeline {
                     extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: "${REPOSITORY_NAME}"]],
                     userRemoteConfigs: [[
                         url: "https://github.com/adduculmark/${REPOSITORY_NAME}.git", 
-                        credentialsId: 'ETS_OAR_TEST_CRED' // Updated to use the new credentials
+                        //credentialsId: 'ETS_OAR_TEST_CRED' // Updated to use the new credentials
                     ]]
                 ])
             }
