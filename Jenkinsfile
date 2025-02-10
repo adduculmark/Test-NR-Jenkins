@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent { label 'macOSX' }
     options { disableConcurrentBuilds() }
     environment {
         SHARED_LIB = "$WORKSPACE/OAR-scripts"
