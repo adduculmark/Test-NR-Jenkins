@@ -1,0 +1,23 @@
+{
+    "name": "countryCode Alert Condition - appName - Backing Services - REDIS Errors",
+    "enabled": true,
+    "nrql": {
+        "query": "FROM TransactionError select count(*) where clusterName = cluster_name AND namespaceName IN (namespace_names) AND appName IN (appNames) and error.message like '%RedisException%' facet appName"
+    },
+    "signal": {
+        "aggregationDelay": 120,
+        "aggregationMethod": "EVENT_FLOW",
+        "aggregationWindow": 900
+    },
+    "terms": [
+        {
+            "operator": "ABOVE",
+            "priority": "CRITICAL",
+            "threshold": 2.0,
+            "thresholdDuration": 900,
+            "thresholdOccurrences": "AT_LEAST_ONCE"
+        }
+    ],
+    "valueFunction": "SINGLE_VALUE",
+    "violationTimeLimitSeconds": 259200
+}

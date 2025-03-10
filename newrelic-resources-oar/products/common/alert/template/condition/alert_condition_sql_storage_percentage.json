@@ -1,0 +1,31 @@
+{
+    "name": "countryCode Alert Condition - appName - Backing Services - Azure SQL - Storage Usage Percentage",
+    "enabled": true,
+    "nrql": {
+        "query": "SELECT average(storagePercent.Total) AS 'Storage %' FROM AzureSqlDatabaseSample WHERE name IN (azureDBNames) FACET name"
+    },
+    "signal": {
+        "aggregationDelay": 120,
+        "aggregationMethod": "EVENT_FLOW",
+        "aggregationTimer": null,
+        "aggregationWindow": 900
+    },
+    "terms": [
+        {
+            "operator": "ABOVE_OR_EQUALS",
+            "priority": "CRITICAL",
+            "threshold": 80.0,
+            "thresholdDuration": 900,
+            "thresholdOccurrences": "ALL"
+        },
+        {
+            "operator": "ABOVE_OR_EQUALS",
+            "priority": "WARNING",
+            "threshold": 75.0,
+            "thresholdDuration": 600,
+            "thresholdOccurrences": "ALL"
+        }
+    ],
+    "valueFunction": "SINGLE_VALUE",
+    "violationTimeLimitSeconds": 259200
+}

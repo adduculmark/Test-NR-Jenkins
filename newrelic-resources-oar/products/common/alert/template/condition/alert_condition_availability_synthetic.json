@@ -1,0 +1,31 @@
+{
+    "name": "countryCode Alert Condition - appName - Availability - Web - Synthetic Login Failure",
+    "enabled": true,
+    "nrql": {
+        "query": "SELECT filter(count(*), WHERE result = 'FAILED') FROM SyntheticCheck WHERE NOT isMuted AND entityGuid IN (AvailabilitySynthetics) FACET entityGuid, location"
+    },
+    "signal": {
+        "aggregationDelay": 120,
+        "aggregationMethod": "EVENT_FLOW",
+        "aggregationTimer": null,
+        "aggregationWindow": 900
+    },
+    "terms": [
+        {
+            "operator": "ABOVE",
+            "priority": "CRITICAL",
+            "threshold": 0,
+            "thresholdDuration": 900,
+            "thresholdOccurrences": "ALL"
+        },
+        {
+            "operator": "ABOVE",
+            "priority": "WARNING",
+            "threshold": 0,
+            "thresholdDuration": 600,
+            "thresholdOccurrences": "ALL"
+        }
+    ],
+    "valueFunction": "SINGLE_VALUE",
+    "violationTimeLimitSeconds": 259200
+}

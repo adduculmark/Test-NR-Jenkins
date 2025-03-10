@@ -1,0 +1,24 @@
+{
+    "name": "countryCode Alert Condition - appName - Infrastructure - Kubernetes - Pods CPU Usage",
+    "enabled": true,
+    "nrql": {
+        "query": "FROM K8sContainerSample SELECT latest(requestedCpuCoresUtilization) AS '% CPU' WHERE namespaceName IN (namespace_names) AND concat(`label.app.kubernetes.io/appName`,'-sea-emm-prod') IN (appNames) AND clusterName = cluster_name AND `label.app.kubernetes.io/appName` NOT LIKE 'rsf%' AND containerName NOT LIKE '%istio-proxy%' FACET containerName"
+    },
+    "signal": {
+        "aggregationDelay": 120,
+        "aggregationMethod": "EVENT_FLOW",
+        "aggregationTimer": null,
+        "aggregationWindow": 1800
+    },
+    "terms": [
+        {
+            "operator": "ABOVE_OR_EQUALS",
+            "priority": "WARNING",
+            "threshold": 95.0,
+            "thresholdDuration": 3600,
+            "thresholdOccurrences": "ALL"
+        }
+    ],
+    "valueFunction": "SINGLE_VALUE",
+    "violationTimeLimitSeconds": 259200
+}

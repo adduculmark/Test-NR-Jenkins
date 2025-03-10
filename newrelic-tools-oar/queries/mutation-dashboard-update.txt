@@ -1,0 +1,11 @@
+mutation create($guid: EntityGuid!, $dashboard: DashboardInput!) {
+  dashboardUpdate(guid: $guid, dashboard: $dashboard) {
+    errors {
+      description
+    }
+    entityResult {
+      guid
+      name
+    }
+  }
+}

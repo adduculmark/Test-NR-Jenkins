@@ -1,0 +1,53 @@
+pipeline {
+  agent { label 'macOSX' }
+  options { disableConcurrentBuilds() }
+  environment {
+    SHARED_LIB="$WORKSPACE/oar-scripts"
+  }
+
+  stages {
+    stage('Parameters Setup') {
+      steps {
+        script {
+          properties([[$class: 'JiraProjectProperty', siteName: 'https://jira.ap.manulife.com/'], parameters([
+            choice(choices: ['BUILD-NEWRELIC-RESOURCES-FROM-TEMPLATE', 'IMPORT-FROM-GIT-TO-NEWRELIC'], description: 'Action to perform', name: 'ACTION'), 
+            [$class: 'CascadeChoiceParameter', choiceType: 'PT_SINGLE_SELECT', description: 'Name of the environment', filterLength: 1, filterable: false, name: 'ENVIRONMENT', randomName: 'choice-parameter-197183925882287', referencedParameters: 'ACTION', script: [$class: 'GroovyScript', fallbackScript: [classpath: [], sandbox: true, script: ''], script: [classpath: [], sandbox: true, script: '''if (ACTION.equals("BUILD-FROM-TEMPLATE-TO-DASHBOARDS")) { return ["N/A"] } else { return ["DEV","SIT","UAT","PROD"] }''']]], 
+            string(name: 'ENVIRONMENT_SUFFIX', defaultValue: '', description: 'The optional suffix to attach to the environment name.  E.g., if suffix is stg and environment is uat then it would become uat-stg', trim: true),
+            choice(name: 'RESOURCE_TYPE', choices: ['DASHBOARD','POLICY'], description: 'Resource type'),
+            choice(name: 'REPOSITORY_NAME', choices: ['newrelic-resources-oar'], description: 'Name of the repository'),           
+            choice(name: 'PRODUCT_NAMES', choices: ['ALL','gb-disability-test'], description: 'Product Names (TESTING)'),
+            string(name: 'NEWRELIC_API_KEY', defaultValue: '', description: 'New Relic API key - Minimum APM Key required (Required for import only)', trim: true)
+          ]), [$class: 'JobLocalConfiguration', changeReasonComment: '']])
+        }
+      }
+    }    
+    stage('Checkout Scripts Repository') {
+      steps {
+        checkout([$class: 'GitSCM', branches: [[name: '*/feature/policy']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'newrelic-tools-oar'], [$class: 'LocalBranch', localBranch: 'feature/policy']], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/manulife-ets/esm-re-nr-jenkins-oar-poc.git']]])
+      }
+    }
+
+    stage('Checkout Market Repository') {
+      steps {
+        checkout([$class: 'GitSCM', branches: [[name: '*/develop']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: "${REPOSITORY_NAME}"], [$class: 'LocalBranch', localBranch: 'develop']], submoduleCfg: [], userRemoteConfigs: [[url: "https://github.com/manulife-ets/${REPOSITORY_NAME}.git"]]])
+      }
+    }
+
+    stage('Executing Pipeline') {
+      steps {
+        script {
+          sh """
+            set +x
+            bash newrelic-tools-oar/scripts/bin/manage_newrelic_resources.sh '${ACTION}' '${ENVIRONMENT}' '${ENVIRONMENT_SUFFIX}' '${RESOURCE_TYPE}' '${REPOSITORY_NAME}' '${PRODUCT_NAMES}' '${NEWRELIC_API_KEY}'
+          """
+        }
+      }
+    }
+  }
+
+  post { 
+    always { 
+      cleanWs()
+    }
+  }
+}

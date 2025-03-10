@@ -1,0 +1,24 @@
+{
+  "env": "TEST",
+  "appName": "GB Disability Test",
+  "countryCode": "GB",
+  "patterns": [
+    {"match": "AvailabilitySynthetics", "replacedBy": "''"},
+    {"match": "namespace_names", "replacedBy": "'gb-disability-test'"},
+    {"match": "cluster_name", "replacedBy": "'gb-disability-aks-test'"},
+    {"match": "appNames", "replacedBy": "'gb-navigator-claimdata-api [aks-tst]'"},
+    {"match": "azureDBNames", "replacedBy": "''"},
+    {"match": "azureBlobNames", "replacedBy": "''"},
+    {"match": "azureServiceBusNames", "replacedBy": "''"},
+    {"match": "azureServiceBusTopicNames", "replacedBy": "''"},
+    {"match": "confluentKafkaTopicNames", "replacedBy": "''"},
+    {"match": "confluentKafkaNames", "replacedBy": "''"},
+    {"match": "eventHubNames", "replacedBy": "''"},
+    {"match": "eventHubTopicNames", "replacedBy": "''"},
+    {"match": "azureRedisCacheNames", "replacedBy": "''"},
+    {"match": "BrowserGuids", "replacedBy": "''"},
+    {"match": "MobileAndroidGuid", "replacedBy": "''"},
+    {"match": "MobileIOSGuid", "replacedBy": "''"}
+  ],
+  "account_id": 1737703
+}
