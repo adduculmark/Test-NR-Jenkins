@@ -1,6 +1,0 @@
-mutation create($accountId: Int!, $condition: AlertsNrqlConditionStaticInput!, $policyId: ID!) {
-  alertsNrqlConditionStaticCreate(accountId: $accountId, condition: $condition, policyId: $policyId) {
-    id
-    name
-  }
-}

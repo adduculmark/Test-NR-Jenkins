@@ -1,8 +1,0 @@
-mutation Create($policy: AlertsIncidentPreference!, $name: String!, $accountId: Int!) {
-  alertsPolicyCreate(policy: {incidentPreference: $policy, name: $name}, accountId: $accountId) {
-    accountId
-    id
-    incidentPreference
-    name
-  }
-}
